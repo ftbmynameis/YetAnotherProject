@@ -147,11 +147,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="YetAnotherProject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="com_ptr.hpp" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="mat4.hpp" />
+    <ClInclude Include="vec.hpp" />
+    <ClInclude Include="WindowClassType.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
