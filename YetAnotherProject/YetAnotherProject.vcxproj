@@ -147,13 +147,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="application.cpp" />
+    <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="YetAnotherProject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="com_ptr.hpp" />
+    <ClInclude Include="application.hpp" />
     <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="Helpers.h" />
+    <ClInclude Include="GraphicContext.hpp" />
+    <ClInclude Include="helper.hpp" />
     <ClInclude Include="mat4.hpp" />
     <ClInclude Include="vec.hpp" />
     <ClInclude Include="WindowClassType.hpp" />

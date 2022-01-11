@@ -4,6 +4,8 @@
 #include <iostream>
 
 #include "application.hpp"
+#include "GraphicContext.hpp"
+#include "helper.hpp"
 
 
 int CALLBACK wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLine, int nCmdShow)
@@ -11,6 +13,8 @@ int CALLBACK wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdL
 	try
 	{
 		Application app("best app ever!", 800, 600);
+
+		app.initialize();
 		app.runApplication();
 	}
 	catch (std::exception& e)

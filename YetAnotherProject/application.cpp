@@ -1,6 +1,9 @@
 #include "application.hpp"
 
-
+void Application::initialize()
+{
+	_gc.initialize();
+}
 
 void Application::runApplication() {
 	bool bRun = true;
@@ -13,7 +16,7 @@ void Application::runApplication() {
 
 	while (bRun)
 	{
-		frameticks = GetTickCount64();
+		frameticks = GetTickCount();
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -39,15 +42,15 @@ void Application::runApplication() {
 
 		gc.swapchain->Present(0, 0);*/
 
-		frameticks = (GetTickCount64() - frameticks);
+		frameticks = (GetTickCount() - frameticks);
 		frametime = static_cast<float>(frameticks / 1000.0f);
 	}
 }
 
 Win32::WindowClassType<Application, &Application::WndProc> Application::wct("windowclassname", 0, 0, 0, 0);
 
-Application::Application(const std::string& title, int bufferWidth, int bufferHeight, DWORD dwStyle, DWORD dwExStyle)
-	: windowHandle(wct.createWindow(*this, dwExStyle, title.c_str(), dwStyle, bufferWidth, bufferHeight))
+Application::Application(const std::string& title, int width, int height, DWORD dwStyle, DWORD dwExStyle)
+	: windowHandle(wct.createWindow(*this, dwExStyle, title.c_str(), dwStyle, width, height)), _gc(windowHandle, width, height)
 {
 	ShowWindow(windowHandle, 1);
 	UpdateWindow(windowHandle);

@@ -21,15 +21,15 @@
     <ClCompile Include="tutorial.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="application.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicContext.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dx12.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="com_ptr.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="mat4.hpp">
@@ -39,6 +39,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="WindowClassType.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="helper.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="application.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicContext.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
