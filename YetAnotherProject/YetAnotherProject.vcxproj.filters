@@ -21,10 +21,13 @@
     <ClCompile Include="tutorial.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="application.cpp">
+    <ClCompile Include="Application.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GraphicContext.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,14 +44,22 @@
     <ClInclude Include="WindowClassType.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="helper.hpp">
+    <ClInclude Include="Helper.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="application.hpp">
+    <ClInclude Include="Application.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GraphicContext.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders.hlsl">
+      <Filter>Headerdateien</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

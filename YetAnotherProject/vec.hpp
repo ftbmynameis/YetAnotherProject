@@ -53,6 +53,28 @@ union vec<T, 3>
 	}
 };
 
+template <typename T>
+union vec<T, 4>
+{
+	T data[4];
+	struct { T x, y, z, w; };
+
+	vec()
+		: x(T()), y(T()), z(T()), w(T())
+	{
+	}
+
+	vec(const vec& rhs)
+		: x(rhs.x), y(rhs.y), z(rhs.z), w(rhs.w)
+	{
+	}
+
+	vec(T _x, T _y, T _z, T _w)
+		: x(_x), y(_y), z(_z), w(_w)
+	{
+	}
+};
+
 template <typename Type, unsigned int Dimension>
 vec<Type, Dimension>& operator += (vec<Type, Dimension>& lhs, const vec<Type, Dimension>& rhs)
 {

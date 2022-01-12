@@ -1,4 +1,4 @@
-#include "application.hpp"
+#include "Application.hpp"
 
 void Application::initialize()
 {
@@ -9,14 +9,14 @@ void Application::runApplication() {
 	bool bRun = true;
 	MSG msg;
 
-	DWORD frameticks = 0;
+	ULONGLONG frameticks = 0;
 	float frametime = 0.0f;
 
 	// rc.UpdateProjectionMatrix(ProjeMatrix(180, 800.0f / 600.0f, 1.0f, 100.0f));
 
 	while (bRun)
 	{
-		frameticks = GetTickCount();
+		frameticks = GetTickCount64();
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -42,14 +42,18 @@ void Application::runApplication() {
 
 		gc.swapchain->Present(0, 0);*/
 
-		frameticks = (GetTickCount() - frameticks);
+		_gc.setup_triangle_rendering();
+		_gc.triangle_render();
+
+
+		frameticks = (GetTickCount64() - frameticks);
 		frametime = static_cast<float>(frameticks / 1000.0f);
 	}
 }
 
-Win32::WindowClassType<Application, &Application::WndProc> Application::wct("windowclassname", 0, 0, 0, 0);
+Win32::WindowClassType<Application, &Application::WndProc> Application::wct(L"windowclassname", 0, 0, 0, 0);
 
-Application::Application(const std::string& title, int width, int height, DWORD dwStyle, DWORD dwExStyle)
+Application::Application(const std::wstring& title, int width, int height, DWORD dwStyle, DWORD dwExStyle)
 	: windowHandle(wct.createWindow(*this, dwExStyle, title.c_str(), dwStyle, width, height)), _gc(windowHandle, width, height)
 {
 	ShowWindow(windowHandle, 1);

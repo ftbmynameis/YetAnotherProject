@@ -2291,128 +2291,128 @@ struct ID3DX12PipelineParserCallbacks
 
 };
 
-struct CD3DX12_PIPELINE_STATE_STREAM
-{
-    CD3DX12_PIPELINE_STATE_STREAM() {}
-    CD3DX12_PIPELINE_STATE_STREAM(const D3D12_GRAPHICS_PIPELINE_STATE_DESC& Desc)
-        : Flags(Desc.Flags)
-        , NodeMask(Desc.NodeMask)
-        , pRootSignature(Desc.pRootSignature)
-        , InputLayout(Desc.InputLayout)
-        , IBStripCutValue(Desc.IBStripCutValue)
-        , PrimitiveTopologyType(Desc.PrimitiveTopologyType)
-        , VS(Desc.VS)
-        , GS(Desc.GS)
-        , StreamOutput(Desc.StreamOutput)
-        , HS(Desc.HS)
-        , DS(Desc.DS)
-        , PS(Desc.PS)
-        , BlendState(CD3DX12_BLEND_DESC(Desc.BlendState))
-        , DepthStencilState(CD3DX12_DEPTH_STENCIL_DESC1(Desc.DepthStencilState))
-        , DSVFormat(Desc.DSVFormat)
-        , RasterizerState(CD3DX12_RASTERIZER_DESC(Desc.RasterizerState))
-        , RTVFormats(CD3DX12_RT_FORMAT_ARRAY(Desc.RTVFormats, Desc.NumRenderTargets))
-        , SampleDesc(Desc.SampleDesc)
-        , SampleMask(Desc.SampleMask)
-        , CachedPSO(Desc.CachedPSO)
-    {}
-    CD3DX12_PIPELINE_STATE_STREAM(const D3D12_COMPUTE_PIPELINE_STATE_DESC& Desc)
-        : Flags(Desc.Flags)
-        , NodeMask(Desc.NodeMask)
-        , pRootSignature(Desc.pRootSignature)
-        , CS(CD3DX12_SHADER_BYTECODE(Desc.CS))
-        , CachedPSO(Desc.CachedPSO)
-    {}
-    CD3DX12_PIPELINE_STATE_STREAM_FLAGS Flags;
-    CD3DX12_PIPELINE_STATE_STREAM_NODE_MASK NodeMask;
-    CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
-    CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT InputLayout;
-    CD3DX12_PIPELINE_STATE_STREAM_IB_STRIP_CUT_VALUE IBStripCutValue;
-    CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY PrimitiveTopologyType;
-    CD3DX12_PIPELINE_STATE_STREAM_VS VS;
-    CD3DX12_PIPELINE_STATE_STREAM_GS GS;
-    CD3DX12_PIPELINE_STATE_STREAM_STREAM_OUTPUT StreamOutput;
-    CD3DX12_PIPELINE_STATE_STREAM_HS HS;
-    CD3DX12_PIPELINE_STATE_STREAM_DS DS;
-    CD3DX12_PIPELINE_STATE_STREAM_PS PS;
-    CD3DX12_PIPELINE_STATE_STREAM_CS CS;
-    CD3DX12_PIPELINE_STATE_STREAM_BLEND_DESC BlendState;
-    CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL1 DepthStencilState;
-    CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT DSVFormat;
-    CD3DX12_PIPELINE_STATE_STREAM_RASTERIZER RasterizerState;
-    CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
-    CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_DESC SampleDesc;
-    CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_MASK SampleMask;
-    CD3DX12_PIPELINE_STATE_STREAM_CACHED_PSO CachedPSO;
-    D3D12_GRAPHICS_PIPELINE_STATE_DESC GraphicsDescV0() const
-    {
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC D;
-        D.Flags = this->Flags;
-        D.NodeMask = this->NodeMask;
-        D.pRootSignature = this->pRootSignature;
-        D.InputLayout = this->InputLayout;
-        D.IBStripCutValue = this->IBStripCutValue;
-        D.PrimitiveTopologyType = this->PrimitiveTopologyType;
-        D.VS = this->VS;
-        D.GS = this->GS;
-        D.StreamOutput = this->StreamOutput;
-        D.HS = this->HS;
-        D.DS = this->DS;
-        D.PS = this->PS;
-        D.BlendState = this->BlendState;
-        D.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(D3D12_DEPTH_STENCIL_DESC1(this->DepthStencilState));
-        D.DSVFormat = this->DSVFormat;
-        D.RasterizerState = this->RasterizerState;
-        D.NumRenderTargets = D3D12_RT_FORMAT_ARRAY(this->RTVFormats).NumRenderTargets;
-        memcpy(D.RTVFormats, D3D12_RT_FORMAT_ARRAY(this->RTVFormats).RTFormats, sizeof(D.RTVFormats));
-        D.SampleDesc = this->SampleDesc;
-        D.SampleMask = this->SampleMask;
-        D.CachedPSO = this->CachedPSO;
-        return D;
-    }
-    D3D12_COMPUTE_PIPELINE_STATE_DESC ComputeDescV0() const
-    {
-        D3D12_COMPUTE_PIPELINE_STATE_DESC D;
-        D.Flags = this->Flags;
-        D.NodeMask = this->NodeMask;
-        D.pRootSignature = this->pRootSignature;
-        D.CS = this->CS;
-        D.CachedPSO = this->CachedPSO;
-        return D;
-    }
-};
+//struct CD3DX12_PIPELINE_STATE_STREAM
+//{
+//    CD3DX12_PIPELINE_STATE_STREAM() {}
+//    CD3DX12_PIPELINE_STATE_STREAM(const D3D12_GRAPHICS_PIPELINE_STATE_DESC& Desc)
+//        : Flags(Desc.Flags)
+//        , NodeMask(Desc.NodeMask)
+//        , pRootSignature(Desc.pRootSignature)
+//        , InputLayout(Desc.InputLayout)
+//        , IBStripCutValue(Desc.IBStripCutValue)
+//        , PrimitiveTopologyType(Desc.PrimitiveTopologyType)
+//        , VS(Desc.VS)
+//        , GS(Desc.GS)
+//        , StreamOutput(Desc.StreamOutput)
+//        , HS(Desc.HS)
+//        , DS(Desc.DS)
+//        , PS(Desc.PS)
+//        , BlendState(CD3DX12_BLEND_DESC(Desc.BlendState))
+//        , DepthStencilState(CD3DX12_DEPTH_STENCIL_DESC1(Desc.DepthStencilState))
+//        , DSVFormat(Desc.DSVFormat)
+//        , RasterizerState(CD3DX12_RASTERIZER_DESC(Desc.RasterizerState))
+//        , RTVFormats(CD3DX12_RT_FORMAT_ARRAY(Desc.RTVFormats, Desc.NumRenderTargets))
+//        , SampleDesc(Desc.SampleDesc)
+//        , SampleMask(Desc.SampleMask)
+//        , CachedPSO(Desc.CachedPSO)
+//    {}
+//    CD3DX12_PIPELINE_STATE_STREAM(const D3D12_COMPUTE_PIPELINE_STATE_DESC& Desc)
+//        : Flags(Desc.Flags)
+//        , NodeMask(Desc.NodeMask)
+//        , pRootSignature(Desc.pRootSignature)
+//        , CS(CD3DX12_SHADER_BYTECODE(Desc.CS))
+//        , CachedPSO(Desc.CachedPSO)
+//    {}
+//    CD3DX12_PIPELINE_STATE_STREAM_FLAGS Flags;
+//    CD3DX12_PIPELINE_STATE_STREAM_NODE_MASK NodeMask;
+//    CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
+//    CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT InputLayout;
+//    CD3DX12_PIPELINE_STATE_STREAM_IB_STRIP_CUT_VALUE IBStripCutValue;
+//    CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY PrimitiveTopologyType;
+//    CD3DX12_PIPELINE_STATE_STREAM_VS VS;
+//    CD3DX12_PIPELINE_STATE_STREAM_GS GS;
+//    CD3DX12_PIPELINE_STATE_STREAM_STREAM_OUTPUT StreamOutput;
+//    CD3DX12_PIPELINE_STATE_STREAM_HS HS;
+//    CD3DX12_PIPELINE_STATE_STREAM_DS DS;
+//    CD3DX12_PIPELINE_STATE_STREAM_PS PS;
+//    CD3DX12_PIPELINE_STATE_STREAM_CS CS;
+//    CD3DX12_PIPELINE_STATE_STREAM_BLEND_DESC BlendState;
+//    CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL1 DepthStencilState;
+//    CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT DSVFormat;
+//    CD3DX12_PIPELINE_STATE_STREAM_RASTERIZER RasterizerState;
+//    CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
+//    CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_DESC SampleDesc;
+//    CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_MASK SampleMask;
+//    CD3DX12_PIPELINE_STATE_STREAM_CACHED_PSO CachedPSO;
+//    D3D12_GRAPHICS_PIPELINE_STATE_DESC GraphicsDescV0() const
+//    {
+//        D3D12_GRAPHICS_PIPELINE_STATE_DESC D;
+//        D.Flags = this->Flags;
+//        D.NodeMask = this->NodeMask;
+//        D.pRootSignature = this->pRootSignature;
+//        D.InputLayout = this->InputLayout;
+//        D.IBStripCutValue = this->IBStripCutValue;
+//        D.PrimitiveTopologyType = this->PrimitiveTopologyType;
+//        D.VS = this->VS;
+//        D.GS = this->GS;
+//        D.StreamOutput = this->StreamOutput;
+//        D.HS = this->HS;
+//        D.DS = this->DS;
+//        D.PS = this->PS;
+//        D.BlendState = this->BlendState;
+//        D.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(D3D12_DEPTH_STENCIL_DESC1(this->DepthStencilState));
+//        D.DSVFormat = this->DSVFormat;
+//        D.RasterizerState = this->RasterizerState;
+//        D.NumRenderTargets = D3D12_RT_FORMAT_ARRAY(this->RTVFormats).NumRenderTargets;
+//        memcpy(D.RTVFormats, D3D12_RT_FORMAT_ARRAY(this->RTVFormats).RTFormats, sizeof(D.RTVFormats));
+//        D.SampleDesc = this->SampleDesc;
+//        D.SampleMask = this->SampleMask;
+//        D.CachedPSO = this->CachedPSO;
+//        return D;
+//    }
+//    D3D12_COMPUTE_PIPELINE_STATE_DESC ComputeDescV0() const
+//    {
+//        D3D12_COMPUTE_PIPELINE_STATE_DESC D;
+//        D.Flags = this->Flags;
+//        D.NodeMask = this->NodeMask;
+//        D.pRootSignature = this->pRootSignature;
+//        D.CS = this->CS;
+//        D.CachedPSO = this->CachedPSO;
+//        return D;
+//    }
+//};
 
-struct CD3DX12_PIPELINE_STATE_STREAM_PARSE_HELPER : public ID3DX12PipelineParserCallbacks
-{
-    CD3DX12_PIPELINE_STATE_STREAM PipelineStream;
-
-    // ID3DX12PipelineParserCallbacks
-    void FlagsCb(D3D12_PIPELINE_STATE_FLAGS Flags) { PipelineStream.Flags = Flags; }
-    void NodeMaskCb(UINT NodeMask) { PipelineStream.NodeMask = NodeMask; }
-    void RootSignatureCb(ID3D12RootSignature* pRootSignature) { PipelineStream.pRootSignature = pRootSignature; }
-    void InputLayoutCb(const D3D12_INPUT_LAYOUT_DESC& InputLayout) { PipelineStream.InputLayout = InputLayout; }
-    void IBStripCutValueCb(D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue) { PipelineStream.IBStripCutValue = IBStripCutValue; }
-    void PrimitiveTopologyTypeCb(D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType) { PipelineStream.PrimitiveTopologyType = PrimitiveTopologyType; }
-    void VSCb(const D3D12_SHADER_BYTECODE& VS) { PipelineStream.VS = VS; }
-    void GSCb(const D3D12_SHADER_BYTECODE& GS) { PipelineStream.GS = GS; }
-    void StreamOutputCb(const D3D12_STREAM_OUTPUT_DESC& StreamOutput) { PipelineStream.StreamOutput = StreamOutput; }
-    void HSCb(const D3D12_SHADER_BYTECODE& HS) { PipelineStream.HS = HS; }
-    void DSCb(const D3D12_SHADER_BYTECODE& DS) { PipelineStream.DS = DS; }
-    void PSCb(const D3D12_SHADER_BYTECODE& PS) { PipelineStream.PS = PS; }
-    void CSCb(const D3D12_SHADER_BYTECODE& CS) { PipelineStream.CS = CS; }
-    void BlendStateCb(const D3D12_BLEND_DESC& BlendState) { PipelineStream.BlendState = CD3DX12_BLEND_DESC(BlendState); }
-    void DepthStencilStateCb(const D3D12_DEPTH_STENCIL_DESC& DepthStencilState) { PipelineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState); }
-    void DepthStencilState1Cb(const D3D12_DEPTH_STENCIL_DESC1& DepthStencilState) { PipelineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState); }
-    void DSVFormatCb(DXGI_FORMAT DSVFormat) { PipelineStream.DSVFormat = DSVFormat; }
-    void RasterizerStateCb(const D3D12_RASTERIZER_DESC& RasterizerState) { PipelineStream.RasterizerState = CD3DX12_RASTERIZER_DESC(RasterizerState); }
-    void RTVFormatsCb(const D3D12_RT_FORMAT_ARRAY& RTVFormats) { PipelineStream.RTVFormats = RTVFormats; }
-    void SampleDescCb(const DXGI_SAMPLE_DESC& SampleDesc) { PipelineStream.SampleDesc = SampleDesc; }
-    void SampleMaskCb(UINT SampleMask) { PipelineStream.SampleMask = SampleMask; }
-    void CachedPSOCb(const D3D12_CACHED_PIPELINE_STATE& CachedPSO) { PipelineStream.CachedPSO = CachedPSO; }
-    void ErrorBadInputParameter(UINT) {}
-    void ErrorDuplicateSubobject(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE) {}
-    void ErrorUnknownSubobject(UINT) {}
-};
+//struct CD3DX12_PIPELINE_STATE_STREAM_PARSE_HELPER : public ID3DX12PipelineParserCallbacks
+//{
+//    CD3DX12_PIPELINE_STATE_STREAM PipelineStream;
+//
+//    // ID3DX12PipelineParserCallbacks
+//    void FlagsCb(D3D12_PIPELINE_STATE_FLAGS Flags) { PipelineStream.Flags = Flags; }
+//    void NodeMaskCb(UINT NodeMask) { PipelineStream.NodeMask = NodeMask; }
+//    void RootSignatureCb(ID3D12RootSignature* pRootSignature) { PipelineStream.pRootSignature = pRootSignature; }
+//    void InputLayoutCb(const D3D12_INPUT_LAYOUT_DESC& InputLayout) { PipelineStream.InputLayout = InputLayout; }
+//    void IBStripCutValueCb(D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue) { PipelineStream.IBStripCutValue = IBStripCutValue; }
+//    void PrimitiveTopologyTypeCb(D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType) { PipelineStream.PrimitiveTopologyType = PrimitiveTopologyType; }
+//    void VSCb(const D3D12_SHADER_BYTECODE& VS) { PipelineStream.VS = VS; }
+//    void GSCb(const D3D12_SHADER_BYTECODE& GS) { PipelineStream.GS = GS; }
+//    void StreamOutputCb(const D3D12_STREAM_OUTPUT_DESC& StreamOutput) { PipelineStream.StreamOutput = StreamOutput; }
+//    void HSCb(const D3D12_SHADER_BYTECODE& HS) { PipelineStream.HS = HS; }
+//    void DSCb(const D3D12_SHADER_BYTECODE& DS) { PipelineStream.DS = DS; }
+//    void PSCb(const D3D12_SHADER_BYTECODE& PS) { PipelineStream.PS = PS; }
+//    void CSCb(const D3D12_SHADER_BYTECODE& CS) { PipelineStream.CS = CS; }
+//    void BlendStateCb(const D3D12_BLEND_DESC& BlendState) { PipelineStream.BlendState = CD3DX12_BLEND_DESC(BlendState); }
+//    void DepthStencilStateCb(const D3D12_DEPTH_STENCIL_DESC& DepthStencilState) { PipelineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState); }
+//    void DepthStencilState1Cb(const D3D12_DEPTH_STENCIL_DESC1& DepthStencilState) { PipelineStream.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(DepthStencilState); }
+//    void DSVFormatCb(DXGI_FORMAT DSVFormat) { PipelineStream.DSVFormat = DSVFormat; }
+//    void RasterizerStateCb(const D3D12_RASTERIZER_DESC& RasterizerState) { PipelineStream.RasterizerState = CD3DX12_RASTERIZER_DESC(RasterizerState); }
+//    void RTVFormatsCb(const D3D12_RT_FORMAT_ARRAY& RTVFormats) { PipelineStream.RTVFormats = RTVFormats; }
+//    void SampleDescCb(const DXGI_SAMPLE_DESC& SampleDesc) { PipelineStream.SampleDesc = SampleDesc; }
+//    void SampleMaskCb(UINT SampleMask) { PipelineStream.SampleMask = SampleMask; }
+//    void CachedPSOCb(const D3D12_CACHED_PIPELINE_STATE& CachedPSO) { PipelineStream.CachedPSO = CachedPSO; }
+//    void ErrorBadInputParameter(UINT) {}
+//    void ErrorDuplicateSubobject(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE) {}
+//    void ErrorUnknownSubobject(UINT) {}
+//};
 
 inline D3D12_PIPELINE_STATE_SUBOBJECT_TYPE D3DX12GetBaseSubobjectType(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE SubobjectType)
 {
@@ -2425,135 +2425,135 @@ inline D3D12_PIPELINE_STATE_SUBOBJECT_TYPE D3DX12GetBaseSubobjectType(D3D12_PIPE
     }
 }
 
-inline HRESULT D3DX12ParsePipelineStream(const D3D12_PIPELINE_STATE_STREAM_DESC& Desc, ID3DX12PipelineParserCallbacks* pCallbacks)
-{
-    if (Desc.SizeInBytes == 0 || Desc.pPipelineStateSubobjectStream == nullptr)
-    {
-        pCallbacks->ErrorBadInputParameter(1); // first parameter issue
-        return E_INVALIDARG;
-    }
-
-    if (pCallbacks == nullptr)
-    {
-        pCallbacks->ErrorBadInputParameter(2); // second parameter issue
-        return E_INVALIDARG;
-    }
-
-    bool SubobjectSeen[D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MAX_VALID] = { 0 };
-    for (SIZE_T CurOffset = 0, SizeOfSubobject = 0; CurOffset < Desc.SizeInBytes; CurOffset += SizeOfSubobject)
-    {
-        BYTE* pStream = static_cast<BYTE*>(Desc.pPipelineStateSubobjectStream) + CurOffset;
-        auto SubobjectType = *reinterpret_cast<D3D12_PIPELINE_STATE_SUBOBJECT_TYPE*>(pStream);
-        if (SubobjectType >= D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MAX_VALID)
-        {
-            pCallbacks->ErrorUnknownSubobject(SubobjectType);
-            return E_INVALIDARG;
-        }
-        if (SubobjectSeen[D3DX12GetBaseSubobjectType(SubobjectType)])
-        {
-            pCallbacks->ErrorDuplicateSubobject(SubobjectType);
-            return E_INVALIDARG; // disallow subobject duplicates in a stream
-        }
-        SubobjectSeen[SubobjectType] = true;
-        switch (SubobjectType)
-        {
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE:
-            pCallbacks->RootSignatureCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::pRootSignature)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::pRootSignature);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_VS:
-            pCallbacks->VSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::VS)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::VS);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_PS:
-            pCallbacks->PSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::PS)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::PS);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DS:
-            pCallbacks->DSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::DS)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::DS);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_HS:
-            pCallbacks->HSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::HS)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::HS);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_GS:
-            pCallbacks->GSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::GS)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::GS);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CS:
-            pCallbacks->CSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::CS)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::CS);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_STREAM_OUTPUT:
-            pCallbacks->StreamOutputCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::StreamOutput)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::StreamOutput);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_BLEND:
-            pCallbacks->BlendStateCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::BlendState)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::BlendState);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_SAMPLE_MASK:
-            pCallbacks->SampleMaskCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::SampleMask)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::SampleMask);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_RASTERIZER:
-            pCallbacks->RasterizerStateCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::RasterizerState)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::RasterizerState);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL:
-            pCallbacks->DepthStencilStateCb(*reinterpret_cast<CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL1:
-            pCallbacks->DepthStencilState1Cb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::DepthStencilState)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::DepthStencilState);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_INPUT_LAYOUT:
-            pCallbacks->InputLayoutCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::InputLayout)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::InputLayout);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_IB_STRIP_CUT_VALUE:
-            pCallbacks->IBStripCutValueCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::IBStripCutValue)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::IBStripCutValue);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_PRIMITIVE_TOPOLOGY:
-            pCallbacks->PrimitiveTopologyTypeCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::PrimitiveTopologyType)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::PrimitiveTopologyType);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_RENDER_TARGET_FORMATS:
-            pCallbacks->RTVFormatsCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::RTVFormats)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::RTVFormats);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL_FORMAT:
-            pCallbacks->DSVFormatCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::DSVFormat)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::DSVFormat);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_SAMPLE_DESC:
-            pCallbacks->SampleDescCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::SampleDesc)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::SampleDesc);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_NODE_MASK:
-            pCallbacks->NodeMaskCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::NodeMask)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::NodeMask);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CACHED_PSO:
-            pCallbacks->CachedPSOCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::CachedPSO)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::CachedPSO);
-            break;
-        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_FLAGS:
-            pCallbacks->FlagsCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::Flags)*>(pStream));
-            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::Flags);
-            break;
-        default:
-            pCallbacks->ErrorUnknownSubobject(SubobjectType);
-            return E_INVALIDARG;
-            break;
-        }
-    }
-
-    return S_OK;
-}
+//inline HRESULT D3DX12ParsePipelineStream(const D3D12_PIPELINE_STATE_STREAM_DESC& Desc, ID3DX12PipelineParserCallbacks* pCallbacks)
+//{
+//    if (Desc.SizeInBytes == 0 || Desc.pPipelineStateSubobjectStream == nullptr)
+//    {
+//        pCallbacks->ErrorBadInputParameter(1); // first parameter issue
+//        return E_INVALIDARG;
+//    }
+//
+//    if (pCallbacks == nullptr)
+//    {
+//        pCallbacks->ErrorBadInputParameter(2); // second parameter issue
+//        return E_INVALIDARG;
+//    }
+//
+//    bool SubobjectSeen[D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MAX_VALID] = { 0 };
+//    for (SIZE_T CurOffset = 0, SizeOfSubobject = 0; CurOffset < Desc.SizeInBytes; CurOffset += SizeOfSubobject)
+//    {
+//        BYTE* pStream = static_cast<BYTE*>(Desc.pPipelineStateSubobjectStream) + CurOffset;
+//        auto SubobjectType = *reinterpret_cast<D3D12_PIPELINE_STATE_SUBOBJECT_TYPE*>(pStream);
+//        if (SubobjectType >= D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MAX_VALID)
+//        {
+//            pCallbacks->ErrorUnknownSubobject(SubobjectType);
+//            return E_INVALIDARG;
+//        }
+//        if (SubobjectSeen[D3DX12GetBaseSubobjectType(SubobjectType)])
+//        {
+//            pCallbacks->ErrorDuplicateSubobject(SubobjectType);
+//            return E_INVALIDARG; // disallow subobject duplicates in a stream
+//        }
+//        SubobjectSeen[SubobjectType] = true;
+//        switch (SubobjectType)
+//        {
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE:
+//            pCallbacks->RootSignatureCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::pRootSignature)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::pRootSignature);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_VS:
+//            pCallbacks->VSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::VS)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::VS);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_PS:
+//            pCallbacks->PSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::PS)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::PS);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DS:
+//            pCallbacks->DSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::DS)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::DS);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_HS:
+//            pCallbacks->HSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::HS)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::HS);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_GS:
+//            pCallbacks->GSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::GS)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::GS);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CS:
+//            pCallbacks->CSCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::CS)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::CS);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_STREAM_OUTPUT:
+//            pCallbacks->StreamOutputCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::StreamOutput)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::StreamOutput);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_BLEND:
+//            pCallbacks->BlendStateCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::BlendState)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::BlendState);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_SAMPLE_MASK:
+//            pCallbacks->SampleMaskCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::SampleMask)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::SampleMask);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_RASTERIZER:
+//            pCallbacks->RasterizerStateCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::RasterizerState)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::RasterizerState);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL:
+//            pCallbacks->DepthStencilStateCb(*reinterpret_cast<CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL1:
+//            pCallbacks->DepthStencilState1Cb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::DepthStencilState)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::DepthStencilState);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_INPUT_LAYOUT:
+//            pCallbacks->InputLayoutCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::InputLayout)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::InputLayout);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_IB_STRIP_CUT_VALUE:
+//            pCallbacks->IBStripCutValueCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::IBStripCutValue)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::IBStripCutValue);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_PRIMITIVE_TOPOLOGY:
+//            pCallbacks->PrimitiveTopologyTypeCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::PrimitiveTopologyType)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::PrimitiveTopologyType);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_RENDER_TARGET_FORMATS:
+//            pCallbacks->RTVFormatsCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::RTVFormats)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::RTVFormats);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL_FORMAT:
+//            pCallbacks->DSVFormatCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::DSVFormat)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::DSVFormat);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_SAMPLE_DESC:
+//            pCallbacks->SampleDescCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::SampleDesc)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::SampleDesc);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_NODE_MASK:
+//            pCallbacks->NodeMaskCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::NodeMask)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::NodeMask);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CACHED_PSO:
+//            pCallbacks->CachedPSOCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::CachedPSO)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::CachedPSO);
+//            break;
+//        case D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_FLAGS:
+//            pCallbacks->FlagsCb(*reinterpret_cast<decltype(CD3DX12_PIPELINE_STATE_STREAM::Flags)*>(pStream));
+//            SizeOfSubobject = sizeof(CD3DX12_PIPELINE_STATE_STREAM::Flags);
+//            break;
+//        default:
+//            pCallbacks->ErrorUnknownSubobject(SubobjectType);
+//            return E_INVALIDARG;
+//            break;
+//        }
+//    }
+//
+//    return S_OK;
+//}
 
 
 #endif // defined( __cplusplus )

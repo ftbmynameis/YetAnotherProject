@@ -6,7 +6,7 @@
 
 struct Application
 {
-	Application(const std::string& title, int width, int height, DWORD dwStyle = WS_OVERLAPPEDWINDOW, DWORD dwExStyle = 0);
+	Application(const std::wstring& title, int width, int height, DWORD dwStyle = WS_OVERLAPPEDWINDOW, DWORD dwExStyle = 0);
 	void initialize();
 	void runApplication();
 	HWND windowHandle;
