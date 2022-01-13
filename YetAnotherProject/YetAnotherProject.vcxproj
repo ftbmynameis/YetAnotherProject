@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="d3d12_helper.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="tutorial.cpp" />
@@ -155,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
+    <ClInclude Include="d3d12_helper.hpp" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="GraphicContext.hpp" />
     <ClInclude Include="Helper.hpp" />
