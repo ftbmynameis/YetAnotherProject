@@ -10,7 +10,6 @@ struct Application
 	void initialize();
 	void runApplication();
 	HWND windowHandle;
-
 private:
 	LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static Win32::WindowClassType<Application, &WndProc> wct;

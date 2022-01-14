@@ -15,7 +15,8 @@ GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
     _assets_folder_path(get_assets_path()),
     _aspect_ratio(static_cast<float>(width) / static_cast<float>(height)),
     _viewport_rect{ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height) },
-    _scissor_rect{ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) }
+    _scissor_rect{ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) },
+    _fence_values{}
 {
 }
 
@@ -43,9 +44,17 @@ void GraphicContext::initialize()
     _rtv_heap = create_rtv_heap(_device.Get(), _num_frames);
     _rtv_heap_size = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     setup_render_targets();    
-    _command_allocator = create_command_allocator(_device.Get());;
+    _command_allocator[0] = create_command_allocator(_device.Get());;
+    _command_allocator[1] = create_command_allocator(_device.Get());;
 
     setup_triangle_assets();
+}
+
+void GraphicContext::exit()
+{
+    wait_for_gpu();
+
+    CloseHandle(_fence_event);
 }
 
 void GraphicContext::setup_triangle_assets()
@@ -102,7 +111,7 @@ void GraphicContext::setup_triangle_assets()
     }
 
     // Create the command list.
-    throw_if_failed(_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, _command_allocator.Get(), _pipeline_state.Get(), IID_PPV_ARGS(&_command_list)));
+    throw_if_failed(_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, _command_allocator[0].Get(), _pipeline_state.Get(), IID_PPV_ARGS(&_command_list)));
 
     // Command lists are created in the recording state, but there is nothing
     // to record yet. The main loop expects it to be closed, so close it now.
@@ -149,8 +158,8 @@ void GraphicContext::setup_triangle_assets()
 
     // Create synchronization objects and wait until assets have been uploaded to the GPU.
     {
-        throw_if_failed(_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence)));
-        _fence_value = 1;
+        throw_if_failed(_device->CreateFence(_fence_values[_frame_index], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence)));
+        _fence_values[_frame_index]++;
 
         // Create an event handle to use for frame synchronization.
         _fence_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -162,21 +171,14 @@ void GraphicContext::setup_triangle_assets()
         // Wait for the command list to execute; we are reusing the same command 
         // list in our main loop but for now, we just want to wait for setup to 
         // complete before continuing.
-        wait_for_previous_frame();
+        wait_for_gpu();
     }
 }
 
 void GraphicContext::setup_triangle_rendering()
 {
-    // Command list allocators can only be reset when the associated 
-    // command lists have finished execution on the GPU; apps should use 
-    // fences to determine GPU execution progress.
-    throw_if_failed(_command_allocator->Reset());
-
-    // However, when ExecuteCommandList() is called on a particular command 
-    // list, that command list can then be reset at any time and must be before 
-    // re-recording.
-    throw_if_failed(_command_list->Reset(_command_allocator.Get(), _pipeline_state.Get()));
+    throw_if_failed(_command_allocator[_frame_index]->Reset());
+    throw_if_failed(_command_list->Reset(_command_allocator[_frame_index].Get(), _pipeline_state.Get()));
 
     // Set necessary state.
     _command_list->SetGraphicsRootSignature(_root_signature.Get());
@@ -216,29 +218,42 @@ void GraphicContext::triangle_render()
     // Present the frame.
     throw_if_failed(_swap_chain->Present(1, 0));
 
-    wait_for_previous_frame();
+    move_to_next_frame();
 }
 
-void GraphicContext::wait_for_previous_frame()
+// Wait for pending GPU work to complete.
+void GraphicContext::wait_for_gpu()
 {
-    // WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-    // This is code implemented as such for simplicity. The D3D12HelloFrameBuffering
-    // sample illustrates how to use fences for efficient resource usage and to
-    // maximize GPU utilization.
+    // Schedule a Signal command in the queue.
+    throw_if_failed(_command_queue->Signal(_fence.Get(), _fence_values[_frame_index]));
 
-    // Signal and increment the fence value.
-    const UINT64 fence = _fence_value;
-    throw_if_failed(_command_queue->Signal(_fence.Get(), fence));
-    _fence_value++;
+    // Wait until the fence has been processed.
+    throw_if_failed(_fence->SetEventOnCompletion(_fence_values[_frame_index], _fence_event));
+    WaitForSingleObjectEx(_fence_event, INFINITE, FALSE);
 
-    // Wait until the previous frame is finished.
-    if (_fence->GetCompletedValue() < fence)
+    // Increment the fence value for the current frame.
+    _fence_values[_frame_index]++;
+}
+
+// Prepare to render the next frame.
+void GraphicContext::move_to_next_frame()
+{
+    // Schedule a Signal command in the queue.
+    const UINT64 currentFenceValue = _fence_values[_frame_index];
+    throw_if_failed(_command_queue->Signal(_fence.Get(), currentFenceValue));
+
+    // Update the frame index.
+    _frame_index = _swap_chain->GetCurrentBackBufferIndex();
+
+    // If the next frame is not ready to be rendered yet, wait until it is ready.
+    if (_fence->GetCompletedValue() < _fence_values[_frame_index])
     {
-        throw_if_failed(_fence->SetEventOnCompletion(fence, _fence_event));
-        WaitForSingleObject(_fence_event, INFINITE);
+        throw_if_failed(_fence->SetEventOnCompletion(_fence_values[_frame_index], _fence_event));
+        WaitForSingleObjectEx(_fence_event, INFINITE, FALSE);
     }
 
-    _frame_index = _swap_chain->GetCurrentBackBufferIndex();
+    // Set the fence value for the next frame.
+    _fence_values[_frame_index] = currentFenceValue + 1;
 }
 
 void GraphicContext::setup_render_targets()

@@ -42,13 +42,15 @@ void Application::runApplication() {
 
 		gc.swapchain->Present(0, 0);*/
 
-		_gc.setup_triangle_rendering();
 		_gc.triangle_render();
+
 
 
 		frameticks = (GetTickCount64() - frameticks);
 		frametime = static_cast<float>(frameticks / 1000.0f);
 	}
+
+	_gc.exit();
 }
 
 Win32::WindowClassType<Application, &Application::WndProc> Application::wct(L"windowclassname", 0, 0, 0, 0);

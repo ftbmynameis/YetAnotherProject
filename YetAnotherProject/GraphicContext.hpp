@@ -14,6 +14,7 @@ class GraphicContext
 public:
 	GraphicContext(HWND hwnd, UINT width, UINT height);
 	void initialize();
+	void exit();
 
 	void setup_triangle_assets();
 	void setup_triangle_rendering();
@@ -34,7 +35,7 @@ private:
 	UINT _rtv_heap_size;
 	ComPtr<ID3D12Resource> _render_targets[_num_frames];
 	ComPtr<ID3D12GraphicsCommandList> _command_list;
-	ComPtr<ID3D12CommandAllocator> _command_allocator;
+	ComPtr<ID3D12CommandAllocator> _command_allocator[_num_frames];
 
 	ComPtr<ID3D12RootSignature> _root_signature;
 	ComPtr<ID3D12PipelineState> _pipeline_state;
@@ -45,13 +46,16 @@ private:
 	ComPtr<ID3D12Resource> _vertex_buffer;
 	D3D12_VERTEX_BUFFER_VIEW _vertex_buffer_view;
 
+	// Synchronization objects.
 	HANDLE _fence_event;
 	ComPtr<ID3D12Fence> _fence;
-	UINT64 _fence_value;
+	UINT64 _fence_values[_num_frames];
 
 	CD3DX12_VIEWPORT _viewport_rect;
 	CD3DX12_RECT _scissor_rect;
+
+	void wait_for_gpu();
+	void move_to_next_frame();
 	
-	void wait_for_previous_frame();
 	void setup_render_targets();
 };
