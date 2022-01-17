@@ -64,8 +64,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shaders.hlsl">
+    <CustomBuild Include="shaders.hlsl">
       <Filter>Headerdateien</Filter>
-    </FxCompile>
+    </CustomBuild>
   </ItemGroup>
 </Project>

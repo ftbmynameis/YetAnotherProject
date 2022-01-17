@@ -20,11 +20,7 @@ void throw_if_failed(HRESULT hr)
 
 std::wstring get_assets_path()
 {
-#if defined(_DEBUG)
-    return get_working_dir();
-#else
     return get_module_path();
-#endif
 }
 
 std::wstring get_working_dir()
