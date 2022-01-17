@@ -52,7 +52,7 @@ namespace mat {
 	}
 
 	mat4f ortho(const vec2f& dimension, const vec2f& near_far_planes) {
-
+		return ortho(dimension.x, dimension.y, near_far_planes.x, near_far_planes.y);
 	}
 }
 
