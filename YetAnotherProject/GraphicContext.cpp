@@ -9,14 +9,18 @@
 
 
 GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
-    : _hwnd(hwnd), 
+    : _hwnd(hwnd),
     _width(width),
     _height(height),
     _assets_folder_path(get_assets_path()),
     _aspect_ratio(static_cast<float>(width) / static_cast<float>(height)),
     _viewport_rect{ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height) },
     _scissor_rect{ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) },
-    _fence_values{}
+    _fence_values{0, 0},
+    _vertex_buffer_view(),
+    _rtv_heap_size(0),
+    _frame_index(0),
+    _fence_event(nullptr)
 {
 }
 

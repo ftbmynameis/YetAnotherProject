@@ -1,3 +1,6 @@
+// Not our header so disable warnings to avoid them cluttering our own code!
+#pragma warning(disable: 6001)
+
 //*********************************************************
 //
 // Copyright (c) Microsoft. All rights reserved.
