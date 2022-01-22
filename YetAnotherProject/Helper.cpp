@@ -10,12 +10,14 @@ std::string hr_to_string(HRESULT hr)
     return std::string(s_str);
 }
 
-void throw_if_failed(HRESULT hr)
+bool throw_if_failed(HRESULT hr)
 {
     if (FAILED(hr))
     {
         throw HrException(hr);
     }
+
+    return true;
 }
 
 std::wstring get_assets_path()

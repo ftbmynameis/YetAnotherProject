@@ -20,7 +20,8 @@ GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
     _vertex_buffer_view(),
     _rtv_heap_size(0),
     _frame_index(0),
-    _fence_event(nullptr)
+    _fence_event(nullptr),
+    _const_buffer(nullptr)
 {
 }
 
@@ -48,8 +49,8 @@ void GraphicContext::initialize()
     _rtv_heap = create_rtv_heap(_device.Get(), _num_frames);
     _rtv_heap_size = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     setup_render_targets();    
-    _command_allocator[0] = create_command_allocator(_device.Get());;
-    _command_allocator[1] = create_command_allocator(_device.Get());;
+    _command_allocator[0] = create_command_allocator(_device.Get());
+    _command_allocator[1] = create_command_allocator(_device.Get());
 
     setup_triangle_assets();
 }
@@ -171,12 +172,14 @@ void GraphicContext::setup_triangle_assets()
         {
             throw_if_failed(HRESULT_FROM_WIN32(GetLastError()));
         }
-
-        // Wait for the command list to execute; we are reusing the same command 
-        // list in our main loop but for now, we just want to wait for setup to 
-        // complete before continuing.
-        wait_for_gpu();
     }
+
+    _const_buffer = std::make_unique<ConstantBuffer<BasicConstBufferData> >(_device.Get());
+
+    // Wait for the command list to execute; we are reusing the same command 
+    // list in our main loop but for now, we just want to wait for setup to 
+    // complete before continuing.
+    wait_for_gpu();
 }
 
 void GraphicContext::setup_triangle_rendering()
@@ -222,7 +225,7 @@ void GraphicContext::triangle_render()
     // Present the frame.
     throw_if_failed(_swap_chain->Present(1, 0));
 
-    move_to_next_frame();
+    move_to_next_frame();    
 }
 
 // Wait for pending GPU work to complete.

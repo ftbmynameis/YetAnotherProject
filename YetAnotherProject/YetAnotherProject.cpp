@@ -14,6 +14,10 @@ int CALLBACK wWinMain(
 	_In_ LPWSTR lpCmdLine,
 	_In_ int nShowCmd)
 {
+		Application app(L"best app ever!", 800, 600);
+		app.initialize();
+		app.runApplication();
+
 	try
 	{
 		Application app(L"best app ever!", 800, 600);

@@ -14,7 +14,7 @@ private:
 };
 
 std::string hr_to_string(HRESULT hr);
-void throw_if_failed(HRESULT hr);
+bool throw_if_failed(HRESULT hr);
 std::wstring get_assets_path();
 std::wstring get_working_dir();
 std::wstring get_module_path();

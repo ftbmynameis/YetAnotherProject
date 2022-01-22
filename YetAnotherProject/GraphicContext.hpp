@@ -9,8 +9,16 @@ using namespace Microsoft::WRL;
 #include <string>
 #include "d3dx12.h"
 
+#include "mat4.hpp"
+#include "ConstantBuffer.hpp"
+
 class GraphicContext
 {
+	struct BasicConstBufferData
+	{
+		mat4f transform;
+		mat4f projection;
+	};
 public:
 	GraphicContext(HWND hwnd, UINT width, UINT height);
 	void initialize();
@@ -53,6 +61,9 @@ private:
 
 	CD3DX12_VIEWPORT _viewport_rect;
 	CD3DX12_RECT _scissor_rect;
+
+	// real properties!
+	std::unique_ptr<ConstantBuffer<BasicConstBufferData> > _const_buffer;
 
 	void wait_for_gpu();
 	void move_to_next_frame();

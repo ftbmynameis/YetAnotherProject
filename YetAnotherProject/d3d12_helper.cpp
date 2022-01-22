@@ -2,6 +2,8 @@
 
 #include "Helper.hpp"
 
+#include "ConstantBuffer.hpp"
+
 ComPtr<ID3D12Device> create_device(IDXGIFactory4* factory)
 {
     ComPtr<IDXGIAdapter1> hardwareAdapter;
@@ -139,4 +141,72 @@ ComPtr<ID3D12CommandAllocator> create_command_allocator(ID3D12Device* device)
     ComPtr<ID3D12CommandAllocator> command_allocator;
     throw_if_failed(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&command_allocator)));
     return command_allocator;
+}
+
+ComPtr<ID3D12Resource> create_commited_resource(ID3D12Device* device, UINT64 width)
+{
+    ComPtr<ID3D12Resource> resource;
+    auto heap_properties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+    auto res_desc = CD3DX12_RESOURCE_DESC::Buffer(width);
+    throw_if_failed(device->CreateCommittedResource(
+        &heap_properties,
+        D3D12_HEAP_FLAG_NONE,
+        &res_desc,
+        D3D12_RESOURCE_STATE_GENERIC_READ,
+        nullptr,
+        IID_PPV_ARGS(&resource)));
+    return resource;
+}
+
+ComPtr<ID3D12DescriptorHeap> create_descriptor_heap(ID3D12Device* device, UINT num_heaps, D3D12_DESCRIPTOR_HEAP_TYPE type, D3D12_DESCRIPTOR_HEAP_FLAGS flags)
+{
+    D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc = {};
+    cbvHeapDesc.NumDescriptors = num_heaps;
+    cbvHeapDesc.Flags = flags;
+    cbvHeapDesc.Type = type;
+
+    ComPtr<ID3D12DescriptorHeap> heap;
+    throw_if_failed(device->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&heap)));
+    return heap;
+}
+
+void create_constant_buffer_view(ID3D12Device* device, ConstantBufferBase* const_buffer)
+{
+    // TODO: maybe introduce proper parameter null checking!
+    D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
+    cbvDesc.BufferLocation = const_buffer->get_buffer()->GetGPUVirtualAddress();
+    cbvDesc.SizeInBytes = const_buffer->get_size();
+    device->CreateConstantBufferView(&cbvDesc, const_buffer->get_desc_heap()->GetCPUDescriptorHandleForHeapStart());
+}
+
+ComPtr<ID3D12RootSignature> create_default_root_signature(ID3D12Device* device)
+{
+    ComPtr<ID3D12RootSignature> root_signature;
+    D3D12_FEATURE_DATA_ROOT_SIGNATURE featureData = {};
+
+    // This is the highest version the sample supports. If CheckFeatureSupport succeeds, the HighestVersion returned will not be greater than this.
+    featureData.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;
+
+    if (throw_if_failed(device->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &featureData, sizeof(featureData))))
+    {
+        featureData.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_0;
+    }
+
+    CD3DX12_DESCRIPTOR_RANGE1 ranges[1];
+    ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_STATIC);
+
+    CD3DX12_ROOT_PARAMETER1 rootParameters[1];
+    rootParameters[0].InitAsDescriptorTable(0, &ranges[0], D3D12_SHADER_VISIBILITY_VERTEX);
+        
+
+    CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
+    rootSignatureDesc.Init_1_1(_countof(rootParameters), rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+    ComPtr<ID3DBlob> signature;
+    ComPtr<ID3DBlob> error;
+    throw_if_failed(D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, featureData.HighestVersion, &signature, &error));
+    throw_if_failed(device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&root_signature)));
+    NAME_D3D12_OBJECT(root_signature);
+
+    return root_signature;
 }
