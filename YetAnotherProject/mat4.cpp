@@ -1,6 +1,7 @@
 #include "mat4.hpp"
 
 #include <cmath>
+#include "vec.hpp"
 
 namespace mat {
 	mat4f zeroed() {
@@ -21,20 +22,31 @@ namespace mat {
 		return m;
 	}
 
-	mat4f multiply(const mat4f& a, const mat4f& b) {
+	mat4f multiply(const mat4f& lhs, const mat4f& rhs) {
 		mat4f resultMatrix;
 
-		for (int x = 0; x < 4; x++) {
-			for (int j = 0; j < 4; j++) {
-				int result = 0;
-				for (int y = 0; y < 4; y++) {
-					result += a[x][y] * b[y][j];
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				resultMatrix[i][j] = 0;
+				for (int k = 0; k < 4; k++)
+				{
+					resultMatrix[i][j] += lhs[i][k] * rhs[k][j];
 				}
-				resultMatrix[x][j] = result;
 			}
 		}
 
 		return resultMatrix;
+	}
+
+	vec4f multiply(const mat4f& mat, const vec4f& vec) {
+		vec4f result;
+		result.x = mat[0][0] * vec.x + mat[0][1] * vec.y + mat[0][2] * vec.z + mat[0][3] * vec.w;
+		result.y = mat[1][0] * vec.x + mat[1][1] * vec.y + mat[1][2] * vec.z + mat[1][3] * vec.w;
+		result.z = mat[2][0] * vec.x + mat[2][1] * vec.y + mat[2][2] * vec.z + mat[2][3] * vec.w;
+		result.w = mat[3][0] * vec.x + mat[3][1] * vec.y + mat[3][2] * vec.z + mat[3][3] * vec.w;
+		return result;
 	}
 
 	mat4f ortho(float width, float height, float nearPlane, float farPlane) {
@@ -51,12 +63,12 @@ namespace mat {
 		return ortho(dimension.x, dimension.y, near_far_planes.x, near_far_planes.y);
 	}
 
-	mat4f rotate_z(float angle_rad)
+	mat4f rotate_z(float angle_in_rad)
 	{
 		mat4f result = identity();
 
-		float cos = std::cosf(angle_rad);
-		float sin = std::sinf(angle_rad);
+		float cos = std::cosf(angle_in_rad);
+		float sin = std::sinf(angle_in_rad);
 		result[0][0] = cos;
 		result[0][1] = -sin;
 		result[1][0] = sin;

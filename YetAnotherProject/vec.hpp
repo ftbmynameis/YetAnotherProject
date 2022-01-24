@@ -218,5 +218,7 @@ vec<Type, 3> CrossProduct(const vec<Type, 3>& a, const vec<Type, 3>& b)
 
 typedef vec<float, 3> vec3f;
 typedef vec<double, 3> vec3d;
+typedef vec<float, 4> vec4f;
+typedef vec<double, 4> vec4d;
 
 #endif

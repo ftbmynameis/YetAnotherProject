@@ -9,7 +9,6 @@
 
 #include <cmath>
 
-
 GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
     : _hwnd(hwnd),
     _width(width),
@@ -143,14 +142,14 @@ void GraphicContext::setup_triangle_assets()
 
     // Create the vertex buffer.
     {
-        float multiplier = 200.0f;
+        float multiplier = 20.0f;
         float z_val = 0.5f;
         // Define the geometry for a triangle.
         SimpleVertex triangleVertices[] =
         {
-            { { 0.0f, 0.25f * multiplier * _aspect_ratio, z_val }, { 1.0f, 0.0f, 0.0f, 1.0f } },
-            { { 0.25f * multiplier, -0.25f * multiplier * _aspect_ratio, z_val }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-            { { -0.25f * multiplier, -0.25f * multiplier * _aspect_ratio, z_val }, { 0.0f, 0.0f, 1.0f, 1.0f } }
+            { { 0.0f, 5.0f * multiplier, z_val }, { 1.0f, 0.0f, 0.0f, 1.0f } },
+            { { 5.0f * multiplier, -5.0f * multiplier, z_val }, { 0.0f, 1.0f, 0.0f, 1.0f } },
+            { { -5.0f * multiplier, -5.0f * multiplier, z_val }, { 0.0f, 0.0f, 1.0f, 1.0f } }
         };
 
         const UINT vertexBufferSize = sizeof(triangleVertices);
@@ -241,9 +240,16 @@ void GraphicContext::setup_triangle_rendering()
     throw_if_failed(_command_list->Close());
 }
 
+float g_ft_acc = 0.0f;
 void GraphicContext::triangle_render(float frametime)
 {
-    _const_buffer_data.world_view_proj = _proj;
+    const float pi_value = 2.0f * 3.14159265358979323846f;
+    g_ft_acc += frametime;
+    const auto rot_angle = pi_value * g_ft_acc;
+    const auto rot_mat = mat::rotate_z(rot_angle);
+    const auto world_view_proj = mat::multiply(_proj, rot_mat);
+
+    _const_buffer_data.world_view_proj = world_view_proj;
     _const_buffer->update_buffer_data(_const_buffer_data);
 
     // Record all the commands we need to render the scene into the command list.
