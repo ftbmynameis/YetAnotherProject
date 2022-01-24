@@ -1,5 +1,7 @@
 #include "mat4.hpp"
 
+#include <cmath>
+
 namespace mat {
 	mat4f zeroed() {
 		mat4f m;
@@ -47,5 +49,18 @@ namespace mat {
 
 	mat4f ortho(const vec2f& dimension, const vec2f& near_far_planes) {
 		return ortho(dimension.x, dimension.y, near_far_planes.x, near_far_planes.y);
+	}
+
+	mat4f rotate_z(float angle_rad)
+	{
+		mat4f result = identity();
+
+		float cos = std::cosf(angle_rad);
+		float sin = std::sinf(angle_rad);
+		result[0][0] = cos;
+		result[0][1] = -sin;
+		result[1][0] = sin;
+		result[1][1] = cos;
+		return result;
 	}
 }

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\Assets">
+      <UniqueIdentifier>{dd952e6d-c9aa-4e8d-afa0-4c3643f25f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Assets\Shader">
+      <UniqueIdentifier>{aa7b700f-1fa9-4006-a384-6aff9b2e72a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="YetAnotherProject.cpp">
@@ -37,6 +43,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="mat4.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="pix.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,10 +80,16 @@
     <ClInclude Include="ConstantBuffer.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="pix.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="shaders.hlsl">
-      <Filter>Headerdateien</Filter>
+    <CustomBuild Include="vs_shader.hlsl">
+      <Filter>Headerdateien\Assets\Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ps_shader.hlsl">
+      <Filter>Headerdateien\Assets\Shader</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

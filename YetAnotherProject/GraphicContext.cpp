@@ -7,6 +7,8 @@
 #include "Vertex.hpp"
 #include "d3d12_helper.hpp"
 
+#include <cmath>
+
 
 GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
     : _hwnd(hwnd),
@@ -64,16 +66,7 @@ void GraphicContext::exit()
 
 void GraphicContext::setup_triangle_assets()
 {
-    // Create an empty root signature.
-    {
-        CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-        rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-
-        ComPtr<ID3DBlob> signature;
-        ComPtr<ID3DBlob> error;
-        throw_if_failed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
-        throw_if_failed(_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&_root_signature)));
-    }
+    _root_signature = create_default_root_signature(_device.Get());
 
     // Create the pipeline state, which includes compiling and loading shaders.
     {
@@ -86,9 +79,35 @@ void GraphicContext::setup_triangle_assets()
 #else
         UINT compileFlags = 0;
 #endif
-        auto shader_path = _assets_folder_path + L"\\" + L"shaders.hlsl";
-        throw_if_failed(D3DCompileFromFile(shader_path.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, nullptr));
-        throw_if_failed(D3DCompileFromFile(shader_path.c_str(), nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, nullptr));
+        auto ps_shader_path = _assets_folder_path + L"\\" + L"ps_shader.hlsl";
+        auto vs_shader_path = _assets_folder_path + L"\\" + L"vs_shader.hlsl";
+        ComPtr<ID3DBlob> error_blob = nullptr;
+        auto vs_compile_hr = D3DCompileFromFile(vs_shader_path.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, &error_blob);
+
+        if (FAILED(vs_compile_hr))
+        {
+            if (error_blob)
+            {
+                OutputDebugStringA((char*)error_blob->GetBufferPointer());
+                error_blob->Release();
+            }
+
+            throw_if_failed(vs_compile_hr);
+        }
+
+        error_blob = nullptr;
+        auto ps_compile_blob = D3DCompileFromFile(ps_shader_path.c_str(), nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, &error_blob);
+
+        if (FAILED(ps_compile_blob))
+        {
+            if (error_blob)
+            {
+                OutputDebugStringA((char*)error_blob->GetBufferPointer());
+                error_blob->Release();
+            }
+
+            throw_if_failed(ps_compile_blob);
+        }
 
         // Define the vertex input layout.
         D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
@@ -124,12 +143,14 @@ void GraphicContext::setup_triangle_assets()
 
     // Create the vertex buffer.
     {
+        float multiplier = 200.0f;
+        float z_val = 0.5f;
         // Define the geometry for a triangle.
         SimpleVertex triangleVertices[] =
         {
-            { { 0.0f, 0.25f * _aspect_ratio, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
-            { { 0.25f, -0.25f * _aspect_ratio, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-            { { -0.25f, -0.25f * _aspect_ratio, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f } }
+            { { 0.0f, 0.25f * multiplier * _aspect_ratio, z_val }, { 1.0f, 0.0f, 0.0f, 1.0f } },
+            { { 0.25f * multiplier, -0.25f * multiplier * _aspect_ratio, z_val }, { 0.0f, 1.0f, 0.0f, 1.0f } },
+            { { -0.25f * multiplier, -0.25f * multiplier * _aspect_ratio, z_val }, { 0.0f, 0.0f, 1.0f, 1.0f } }
         };
 
         const UINT vertexBufferSize = sizeof(triangleVertices);
@@ -175,6 +196,7 @@ void GraphicContext::setup_triangle_assets()
     }
 
     _const_buffer = std::make_unique<ConstantBuffer<BasicConstBufferData> >(_device.Get());
+    _proj = mat::ortho(_width, _height, 0.01f, 1.0f);
 
     // Wait for the command list to execute; we are reusing the same command 
     // list in our main loop but for now, we just want to wait for setup to 
@@ -189,6 +211,12 @@ void GraphicContext::setup_triangle_rendering()
 
     // Set necessary state.
     _command_list->SetGraphicsRootSignature(_root_signature.Get());
+
+    // setup const buffer
+    ID3D12DescriptorHeap* ppHeaps[] = { _const_buffer->get_desc_heap() };
+    _command_list->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+    _command_list->SetGraphicsRootDescriptorTable(0, _const_buffer->get_desc_heap()->GetGPUDescriptorHandleForHeapStart());
+
     _command_list->RSSetViewports(1, &_viewport_rect);
     _command_list->RSSetScissorRects(1, &_scissor_rect);
 
@@ -213,8 +241,11 @@ void GraphicContext::setup_triangle_rendering()
     throw_if_failed(_command_list->Close());
 }
 
-void GraphicContext::triangle_render()
+void GraphicContext::triangle_render(float frametime)
 {
+    _const_buffer_data.world_view_proj = _proj;
+    _const_buffer->update_buffer_data(_const_buffer_data);
+
     // Record all the commands we need to render the scene into the command list.
     setup_triangle_rendering();
 

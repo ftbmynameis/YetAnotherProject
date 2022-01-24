@@ -19,6 +19,8 @@ namespace mat {
 	mat4f ortho(float width, float height, float nearPlane, float farPlane);
 
 	mat4f ortho(const vec2f& dimension, const vec2f& near_far_planes);
+
+	mat4f rotate_z(float angle);
 }
 
 #endif

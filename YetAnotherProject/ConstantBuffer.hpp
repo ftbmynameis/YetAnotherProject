@@ -13,12 +13,12 @@ public:
 	UINT get_size() const;
 	ID3D12Resource* get_buffer() const;
 	ID3D12DescriptorHeap* get_desc_heap() const;
-	virtual void* get_raw_data() const = 0;
-private:
+protected:
 	// size is uint vs uin64, because const buffer view desc only supports uint. uint64 is for descriptor heaps containing more than simply one thing / const buffer!
 	UINT _size;
 	ComPtr<ID3D12Resource> _buffer;
 	ComPtr<ID3D12DescriptorHeap> _desc_heap;
+	UINT8* _buffer_begin;
 
 	ConstantBufferBase(const ConstantBufferBase&);
 	ConstantBufferBase(ConstantBufferBase&&);
@@ -45,24 +45,12 @@ public:
 	{
 	}
 
-	void* get_raw_data() const override
+	void update_buffer_data(const T& data)
 	{
-		return _data.get();
-	}
-
-	T* get_data() const
-	{
-		return static_cast<T*>(_data.get());
-	}
-
-	void set_data(const T& data)
-	{
-		memcpy(_data.get(), &data, sizeof(T));
+		memcpy(_buffer_begin, &data, sizeof(T));
 	}
 
 private:
-	std::unique_ptr<void*> _data;
-
 	ConstantBuffer(const ConstantBuffer<T>&);
 	ConstantBuffer(ConstantBuffer<T>&&);
 };

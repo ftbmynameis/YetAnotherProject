@@ -16,8 +16,7 @@ class GraphicContext
 {
 	struct BasicConstBufferData
 	{
-		mat4f transform;
-		mat4f projection;
+		mat4f world_view_proj;
 	};
 public:
 	GraphicContext(HWND hwnd, UINT width, UINT height);
@@ -27,7 +26,7 @@ public:
 	void setup_triangle_assets();
 	void setup_triangle_rendering();
 
-	void triangle_render();
+	void triangle_render(float frametime);
 
 private:
 	static const uint8_t _num_frames = 2;
@@ -64,6 +63,8 @@ private:
 
 	// real properties!
 	std::unique_ptr<ConstantBuffer<BasicConstBufferData> > _const_buffer;
+	mat4f _proj;
+	BasicConstBufferData _const_buffer_data;
 
 	void wait_for_gpu();
 	void move_to_next_frame();

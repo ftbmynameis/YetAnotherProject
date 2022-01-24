@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 
+#include "pix.hpp"
 #include "Application.hpp"
 #include "GraphicContext.hpp"
 #include "helper.hpp"
@@ -14,9 +15,13 @@ int CALLBACK wWinMain(
 	_In_ LPWSTR lpCmdLine,
 	_In_ int nShowCmd)
 {
-		Application app(L"best app ever!", 800, 600);
-		app.initialize();
-		app.runApplication();
+#ifdef _DEBUG
+	load_pix_dll();
+#endif
+
+	Application app(L"best app ever!", 800, 600);
+	app.initialize();
+	app.runApplication();
 
 	try
 	{

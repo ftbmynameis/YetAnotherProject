@@ -153,6 +153,7 @@
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="mat4.cpp" />
+    <ClCompile Include="pix.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="YetAnotherProject.cpp" />
   </ItemGroup>
@@ -164,12 +165,13 @@
     <ClInclude Include="GraphicContext.hpp" />
     <ClInclude Include="Helper.hpp" />
     <ClInclude Include="mat4.hpp" />
+    <ClInclude Include="pix.hpp" />
     <ClInclude Include="vec.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="WindowClassType.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="shaders.hlsl">
+    <CustomBuild Include="vs_shader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
@@ -180,6 +182,15 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)%(Identity)</Outputs>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ps_shader.hlsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy %(Identity) "$(OutDir)" &gt; NUL</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)%(Identity)</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

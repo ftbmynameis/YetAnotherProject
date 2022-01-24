@@ -42,7 +42,7 @@ void Application::runApplication() {
 
 		gc.swapchain->Present(0, 0);*/
 
-		_gc.triangle_render();
+		_gc.triangle_render(frametime);
 
 
 
