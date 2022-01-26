@@ -247,7 +247,8 @@ void GraphicContext::triangle_render(float frametime)
     g_ft_acc += frametime;
     const auto rot_angle = pi_value * g_ft_acc;
     const auto rot_mat = mat::rotate_z(rot_angle);
-    const auto world_view_proj = mat::multiply(_proj, rot_mat);
+    const auto proj = _proj;
+    const auto world_view_proj = _proj * rot_mat;
 
     _const_buffer_data.world_view_proj = world_view_proj;
     _const_buffer->update_buffer_data(_const_buffer_data);

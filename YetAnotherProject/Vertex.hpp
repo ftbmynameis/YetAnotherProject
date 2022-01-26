@@ -4,6 +4,6 @@
 
 struct SimpleVertex
 {
-	vec<float, 3> pos;
-	vec<float, 4> color;
+	vec_type<float, 3> pos;
+	vec_type<float, 4> color;
 };

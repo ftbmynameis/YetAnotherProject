@@ -2,6 +2,9 @@
 
 #include <cmath>
 #include "vec.hpp"
+#include "utility.hpp"
+
+using namespace vec;
 
 namespace mat {
 	mat4f zeroed() {
@@ -75,4 +78,45 @@ namespace mat {
 		result[1][1] = cos;
 		return result;
 	}
+
+	mat4f proj(float fov, float aspect, float near_plane, float far_plane)
+	{
+		float y_scale = util::math::cot(fov / 2.0f);
+		float x_scale = y_scale / aspect;
+
+		auto result = zeroed();
+		result[0][0] = x_scale;
+		result[1][1] = y_scale;
+		result[2][2] = far_plane / (far_plane - near_plane);
+		result[2][3] = 1.0f;
+		result[3][2] = -near_plane * far_plane / (far_plane - near_plane);
+
+		return result;
+	}
+
+	mat4f look_at(vec3f eye, vec3f at, vec3f up)
+	{
+		auto az = normalice(at - eye);
+		auto ax = normalice(cross(up, az));
+		auto ay = cross(az, ax);
+
+		mat4f m = identity();
+
+		m[0][0] = ax.x; m[0][1] = ay.x; m[0][2] = az.x;
+		m[1][0] = ax.y; m[1][1] = ay.y; m[1][2] = az.y;
+		m[2][0] = ax.z; m[2][1] = ay.z; m[2][2] = az.z;
+		m[3][0] = -dot(ax, eye); m[3][1] = -dot(ay, eye); m[3][2] = -dot(az, eye);
+
+		return m;
+	}
+}
+
+mat4f operator * (const mat4f& lhs, const mat4f& rhs)
+{
+	return mat::multiply(lhs, rhs);
+}
+
+vec4f operator * (const mat4f& m, const vec4f& v)
+{
+	return mat::multiply(m, v);
 }
