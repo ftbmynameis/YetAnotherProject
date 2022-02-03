@@ -154,6 +154,8 @@
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="mat4.cpp" />
     <ClCompile Include="pix.cpp" />
+    <ClCompile Include="SimpleCamera.cpp" />
+    <ClCompile Include="StepTimer.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="YetAnotherProject.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="Helper.hpp" />
     <ClInclude Include="mat4.hpp" />
     <ClInclude Include="pix.hpp" />
+    <ClInclude Include="SimpleCamera.hpp" />
+    <ClInclude Include="StepTimer.hpp" />
     <ClInclude Include="utility.hpp" />
     <ClInclude Include="vec.hpp" />
     <ClInclude Include="Vertex.hpp" />

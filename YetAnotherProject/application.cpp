@@ -42,6 +42,8 @@ void Application::runApplication() {
 
 		gc.swapchain->Present(0, 0);*/
 
+		// samples actually update and render on WndProc WM_PAINT
+		_step_timer.tick();
 		_gc.triangle_render(frametime);
 
 

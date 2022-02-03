@@ -51,6 +51,12 @@
     <ClCompile Include="utility.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleCamera.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StepTimer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dx12.h">
@@ -87,6 +93,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="utility.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleCamera.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StepTimer.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

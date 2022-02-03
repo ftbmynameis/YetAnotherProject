@@ -111,6 +111,22 @@ namespace mat {
 		return m;
 	}
 
+	mat4f look_to(vec3f eye, vec3f to, vec3f up)
+	{
+		auto az = normalice(to);
+		auto ax = normalice(cross(up, az));
+		auto ay = normalice(cross(az, ax));
+
+		mat4f m = identity();
+
+		m[0][0] = ax.x; m[0][1] = ax.y; m[0][2] = ax.z;
+		m[1][0] = ay.x; m[1][1] = ay.y; m[1][2] = ay.z;
+		m[2][0] = az.x; m[2][1] = az.y; m[2][2] = az.z;
+		m[0][3] = dot(ax, -eye); m[1][3] = dot(ay, -eye); m[2][3] = dot(az, -eye);
+
+		return m;
+	}
+
 	mat4f translate(const vec3f& v)
 	{
 		mat4f m = identity();
