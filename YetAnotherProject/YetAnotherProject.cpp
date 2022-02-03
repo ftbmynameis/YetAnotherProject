@@ -1,4 +1,5 @@
 #define WIN32_LEAN_AND_MEAN
+
 #include <Windows.h>
 #include <string>
 #include <iostream>
@@ -18,10 +19,6 @@ int CALLBACK wWinMain(
 #ifdef _DEBUG
 	load_pix_dll();
 #endif
-
-	Application app(L"best app ever!", 800, 600);
-	app.initialize();
-	app.runApplication();
 
 	try
 	{

@@ -1,6 +1,5 @@
 #include "mat4.hpp"
 
-#include <cmath>
 #include "vec.hpp"
 #include "utility.hpp"
 
@@ -27,6 +26,8 @@ namespace mat {
 
 	mat4f multiply(const mat4f& lhs, const mat4f& rhs) {
 		mat4f resultMatrix;
+
+		const auto testA = lhs[3];
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -88,8 +89,8 @@ namespace mat {
 		result[0][0] = x_scale;
 		result[1][1] = y_scale;
 		result[2][2] = far_plane / (far_plane - near_plane);
-		result[2][3] = 1.0f;
-		result[3][2] = -near_plane * far_plane / (far_plane - near_plane);
+		result[3][2] = 1.0f;
+		result[2][3] = -near_plane * far_plane / (far_plane - near_plane);
 
 		return result;
 	}
@@ -98,15 +99,24 @@ namespace mat {
 	{
 		auto az = normalice(at - eye);
 		auto ax = normalice(cross(up, az));
-		auto ay = cross(az, ax);
+		auto ay = normalice(cross(az, ax));
 
 		mat4f m = identity();
 
-		m[0][0] = ax.x; m[0][1] = ay.x; m[0][2] = az.x;
-		m[1][0] = ax.y; m[1][1] = ay.y; m[1][2] = az.y;
-		m[2][0] = ax.z; m[2][1] = ay.z; m[2][2] = az.z;
-		m[3][0] = -dot(ax, eye); m[3][1] = -dot(ay, eye); m[3][2] = -dot(az, eye);
+		m[0][0] = ax.x; m[0][1] = ax.y; m[0][2] = ax.z;
+		m[1][0] = ay.x; m[1][1] = ay.y; m[1][2] = ay.z;
+		m[2][0] = az.x; m[2][1] = az.y; m[2][2] = az.z;
+		m[0][3] = dot(ax, -eye); m[1][3] = dot(ay, -eye); m[2][3] = dot(az, -eye);
 
+		return m;
+	}
+
+	mat4f translate(const vec3f& v)
+	{
+		mat4f m = identity();
+		m[0][3] = v.x;
+		m[1][3] = v.y;
+		m[2][3] = v.z;
 		return m;
 	}
 }

@@ -7,7 +7,9 @@
 #include "Vertex.hpp"
 #include "d3d12_helper.hpp"
 
-#include <cmath>
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
     : _hwnd(hwnd),
@@ -22,7 +24,8 @@ GraphicContext::GraphicContext(HWND hwnd, UINT width, UINT height)
     _rtv_heap_size(0),
     _frame_index(0),
     _fence_event(nullptr),
-    _const_buffer(nullptr)
+    _const_buffer(nullptr),
+    _const_buffer_data()
 {
 }
 
@@ -142,7 +145,7 @@ void GraphicContext::setup_triangle_assets()
 
     // Create the vertex buffer.
     {
-        float multiplier = 20.0f;
+        float multiplier = 1.0f;
         float z_val = 0.5f;
         // Define the geometry for a triangle.
         SimpleVertex triangleVertices[] =
@@ -195,7 +198,6 @@ void GraphicContext::setup_triangle_assets()
     }
 
     _const_buffer = std::make_unique<ConstantBuffer<BasicConstBufferData> >(_device.Get());
-    _proj = mat::ortho(_width, _height, 0.01f, 1.0f);
 
     // Wait for the command list to execute; we are reusing the same command 
     // list in our main loop but for now, we just want to wait for setup to 
@@ -241,16 +243,42 @@ void GraphicContext::setup_triangle_rendering()
 }
 
 float g_ft_acc = 0.0f;
+
+// Somehow M_PI is not defined even tho intellisense recognizes it with use math defines :(
+const float g_pi_value = 3.14159265358979323846f;
+
+const float g_fov = g_pi_value * 0.75f;
+const float g_aspect = 800.0f / 600.0f;
+const float g_near_z = 0.1f;
+const float g_far_z = 10.0f;
+
+vec3f g_eye = vec3f(4.0f, 3.0f, -3.0f);
+vec3f g_at = vec3f(0.0f, 0.0f, 0.0f);
+vec3f g_up = vec3f(0.0f, 1.0f, 0.0f);
+
+mat4f g_view = mat::look_at(g_eye, g_at, g_up);
+mat4f g_proj = mat::proj(g_fov, g_aspect, g_near_z, g_far_z);
+
+XMVECTOR vec_to_xmvec(const vec3f& vec)
+{
+    const auto xmfloat = XMFLOAT3(&vec.data[0]);
+    return XMLoadFloat3(&xmfloat);
+}
+
 void GraphicContext::triangle_render(float frametime)
 {
-    const float pi_value = 2.0f * 3.14159265358979323846f;
-    g_ft_acc += frametime;
-    const auto rot_angle = pi_value * g_ft_acc;
-    const auto rot_mat = mat::rotate_z(rot_angle);
-    const auto proj = _proj;
-    const auto world_view_proj = _proj * rot_mat;
+    // DirectX::XMFLOAT4X4 float4x4;
+    // const auto mvp = mat::translate(vec3f(0, 0, 60));
+    // const auto dx_mvp = DirectX::XMMatrixTranslation(0, 0, 60);
+    // const auto mvp = mat::look_at(g_eye, g_at, g_up);
+    // const auto dx_mvp = XMMatrixLookAtLH(vec_to_xmvec(g_eye), vec_to_xmvec(g_at), vec_to_xmvec(g_up));
+    /*const auto mvp = mat::proj(g_fov, g_aspect, g_near_z, g_far_z) * mat::look_at(g_eye, g_at, g_up);
+    const auto dx_mvp = XMMatrixLookAtLH(vec_to_xmvec(g_eye), vec_to_xmvec(g_at), vec_to_xmvec(g_up)) * XMMatrixPerspectiveFovLH(g_fov, g_aspect, g_near_z, g_far_z);
+    XMStoreFloat4x4(&float4x4, XMMatrixTranspose(dx_mvp));
+    memcpy(_const_buffer_data.dx_world_view_proj, &float4x4, sizeof(float4x4));*/
 
-    _const_buffer_data.world_view_proj = world_view_proj;
+    const auto mvp = mat::proj(g_fov, g_aspect, g_near_z, g_far_z) * mat::look_at(g_eye, g_at, g_up);
+    memcpy(_const_buffer_data.world_view_proj, &mvp[0][0], sizeof(mvp));
     _const_buffer->update_buffer_data(_const_buffer_data);
 
     // Record all the commands we need to render the scene into the command list.

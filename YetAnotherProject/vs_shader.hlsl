@@ -11,7 +11,8 @@
 
 cbuffer BasicConstBuffer : register(b0)
 {
-    float4x4 world_view_proj;
+    float4x4 mvp;
+    float4x4 dx_mvp;
 };
 
 struct PSInput
@@ -24,7 +25,7 @@ PSInput VSMain(float3 position : POSITION, float4 color : COLOR)
 {
     PSInput result;
 
-    result.position = mul(world_view_proj, float4(position, 1.0f));
+    result.position = mul(mvp, float4(position, 1.0f));
     result.color = color;
 
     return result;

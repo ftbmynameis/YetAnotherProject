@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-#include <cmath>
-
 namespace util
 {
 	namespace math

@@ -19,6 +19,7 @@ namespace mat {
 	mat4f rotate_z(float angle_in_rad);
 	mat4f proj(float fov, float aspect, float near_plane, float far_plane);
 	mat4f look_at(vec3f eye, vec3f at, vec3f up);
+	mat4f translate(const vec3f& v);
 }
 
 mat4f operator * (const mat4f& lhs, const mat4f& rhs);

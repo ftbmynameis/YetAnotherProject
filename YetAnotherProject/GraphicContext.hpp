@@ -16,7 +16,8 @@ class GraphicContext
 {
 	struct BasicConstBufferData
 	{
-		mat4f world_view_proj;
+		float world_view_proj[16];
+		float dx_world_view_proj[16];
 	};
 public:
 	GraphicContext(HWND hwnd, UINT width, UINT height);
@@ -63,7 +64,6 @@ private:
 
 	// real properties!
 	std::unique_ptr<ConstantBuffer<BasicConstBufferData> > _const_buffer;
-	mat4f _proj;
 	BasicConstBufferData _const_buffer_data;
 
 	void wait_for_gpu();
